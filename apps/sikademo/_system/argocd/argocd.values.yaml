@@ -1,0 +1,12 @@
+configs:
+  cm:
+    url: https://argocd.k8s.sikademo.com
+server:
+  ingress:
+    enabled: true
+    hostname: argocd.k8s.sikademo.com
+    tls: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
