@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: signpost
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: signpost
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  source:
+    repoURL: https://github.com/sikalabs/charts.git
+    path: charts/signpost
+    helm:
+      valuesObject:
+        host: signpost.k8s.sikademo.com
+        signpost_yaml:
+          SiteHeading: Continental Signpost
+          CompanyName: Continental
+          Rows:
+          - Cols:
+            - Blocks:
+              - Heading: ArgoCD
+                Links:
+                - Title: sikademo
+                  URL: https://argocd.k8s.sikademo.com
+                - Title: us
+                  URL: https://argocd.k8s-us.sikademo.com
+                - Title: eu
+                  URL: https://argocd.k8s-eu.sikademo.com
