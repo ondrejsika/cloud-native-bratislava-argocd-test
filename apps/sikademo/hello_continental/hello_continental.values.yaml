@@ -1,3 +1,0 @@
-image: sikalabs/hello-world-server:continental
-replicas: 2
-host: hello-continental.k8s.sikademo.com
