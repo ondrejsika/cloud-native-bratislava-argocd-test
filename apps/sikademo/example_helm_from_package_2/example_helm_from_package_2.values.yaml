@@ -1,0 +1,3 @@
+# https://artifacthub.io/packages/helm/sikalabs/hello-world?modal=values
+host: example-helm-from-package-2.k8s.sikademo.com
+replicas: 2

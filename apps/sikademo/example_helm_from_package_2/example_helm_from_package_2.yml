@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: example-helm-from-package-2
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: example-helm-from-package-2
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  sources:
+    - repoURL: https://helm.sikalabs.io
+      chart: hello-world
+      # https://artifacthub.io/packages/helm/sikalabs/hello-world
+      targetRevision: 0.14.0
+      helm:
+        valueFiles:
+          - $values/apps/sikademo/example_helm_from_package_2/example_helm_from_package_2.values.yaml
+    - repoURL: https://github.com/ondrejsika/cloud-native-bratislava-argocd-test.git
+      targetRevision: HEAD
+      ref: values
