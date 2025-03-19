@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-continental
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: hello-continental
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  sources:
+    - repoURL: https://github.com/sikalabs/charts.git
+      targetRevision: HEAD
+      path: charts/hello-world
+      helm:
+        valueFiles:
+          - $values/apps/sikademo/hello_continental/hello_continental.values.yaml
+    - repoURL: https://github.com/ondrejsika/cloud-native-bratislava-argocd-test.git
+      targetRevision: HEAD
+      ref: values
