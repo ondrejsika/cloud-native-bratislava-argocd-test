@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bratislava-helm
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: bratislava-helm
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  sources:
+    - repoURL: https://gitlab.sikalabs.com/examples/2025-03-19/cloud-native-bratislava-helm.git
+      targetRevision: HEAD
+      path: .
+      helm:
+        releaseName: cloud-native-bratislava
+        valueFiles:
+          - $values/values.yaml
+    - repoURL: https://gitlab.sikalabs.com/examples/2025-03-19/cloud-native-bratislava-values.git
+      targetRevision: HEAD
+      ref: values
