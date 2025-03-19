@@ -16,6 +16,12 @@ spec:
       selfHeal: true
   sources:
     - repoURL: https://github.com/ondrejsika/cloud-native-bratislava-argocd-test.git
+      path: apps/_global
+      targetRevision: HEAD
+      directory:
+        recurse: true
+        exclude: '{**/manifests/**,**/Chart.yaml,**/values.yaml,**/templates/**,**/*.values.yaml}'
+    - repoURL: https://github.com/ondrejsika/cloud-native-bratislava-argocd-test.git
       path: apps/eu
       targetRevision: HEAD
       directory:
