@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: example-helm-from-package
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: example-helm-from-package
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: https://helm.sikalabs.io
+    chart: hello-world
+    # https://artifacthub.io/packages/helm/sikalabs/hello-world
+    targetRevision: 0.14.0
+    helm:
+      valuesObject:
+        # https://artifacthub.io/packages/helm/sikalabs/hello-world?modal=values
+        host: example-helm-from-package.k8s.sikademo.com
+        replicas: 2
